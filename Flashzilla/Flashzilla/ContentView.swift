@@ -8,31 +8,20 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State private var currentAmount = 0.0
+    @State private var finalAmount = 1.0
+    
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("double")
-                .onTapGesture(count: 2, perform: {
-                    print("double tapped")
+        Text("Text")
+            .scaleEffect(finalAmount + currentAmount)
+            .gesture(MagnifyGesture()
+                .onChanged{ value in
+                    currentAmount = value.magnification - 1
+                }
+                .onEnded{ value in
+                    finalAmount += currentAmount
+                    currentAmount = 0
                 })
-            Text("long")
-                .onLongPressGesture(perform: {
-                    print("long tapped")
-                })
-            Text("long duration 2")
-                .onLongPressGesture(minimumDuration: 2, perform: {
-                    print("long tapped 2 second")
-                })
-            Text("detect pressing changed")
-                .onLongPressGesture(minimumDuration: 2, perform: {
-                    print("long tapped for 2 second")
-                }, onPressingChanged: { inProgress in
-                    print("long tapped in progress \(inProgress)")
-                })
-        }
-        .padding()
     }
 }
 
