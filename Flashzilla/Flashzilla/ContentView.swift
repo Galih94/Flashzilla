@@ -8,20 +8,18 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var currentAmount = Angle.zero
-    @State private var finalAmount = Angle.zero
     
     var body: some View {
-        Text("Text")
-            .rotationEffect(currentAmount + finalAmount)
-            .gesture(RotateGesture()
-                .onChanged{ value in
-                    currentAmount = value.rotation
+        VStack {
+            
+            Text("Text")
+                .onTapGesture {
+                    print("text tapped")
                 }
-                .onEnded{ value in
-                    finalAmount += currentAmount
-                    currentAmount = .zero
-                })
+        }
+        .onTapGesture {
+            print("VStack tapped")
+        }
     }
 }
 
