@@ -8,17 +8,37 @@
 import SwiftUI
 
 struct ContentView: View {
+    /// how fat the sircle has been dragged
+    @State private var offset = CGSize.zero
     
+    /// wether it is currently being dragged or not
+    @State private var isDragging = false
     var body: some View {
-        VStack {
-            Text("Text")
-                .onTapGesture {
-                    print("text tapped")
+        let dragGesture = DragGesture()
+            .onChanged { value in
+                offset = value.translation
+            }
+            .onEnded { _ in
+                withAnimation {
+                    offset = .zero
+                    isDragging = false
                 }
-        }
-        .simultaneousGesture(TapGesture().onEnded{
-            print("VStack tapped")
-        })
+            }
+        let pressGesture = LongPressGesture()
+            .onEnded { value in
+                withAnimation {
+                    isDragging = true
+                }
+            }
+        let combined = pressGesture.sequenced(before: dragGesture)
+        
+        Circle()
+            .fill(.red)
+            .frame(width: 64, height: 64)
+            .scaleEffect(isDragging ? 1.5 : 1)
+            .offset(offset)
+            .gesture(combined)
+                         
     }
 }
 
