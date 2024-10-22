@@ -11,15 +11,14 @@ struct ContentView: View {
     
     var body: some View {
         VStack {
-            
             Text("Text")
                 .onTapGesture {
                     print("text tapped")
                 }
         }
-        .onTapGesture {
+        .highPriorityGesture(TapGesture().onEnded{ 
             print("VStack tapped")
-        }
+        })
     }
 }
 
