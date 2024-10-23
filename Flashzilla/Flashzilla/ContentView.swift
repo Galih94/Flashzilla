@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ContentView: View {
-    let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
+    let timer = Timer.publish(every: 3, tolerance: 1, on: .main, in: .common).autoconnect()
     @State private var counter = 0
     var body: some View {
         Text("Hello world")
