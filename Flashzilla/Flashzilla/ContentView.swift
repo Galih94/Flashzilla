@@ -8,8 +8,18 @@
 import SwiftUI
 
 struct ContentView: View {
+    @Environment(\.accessibilityDifferentiateWithoutColor) var diffWithoutColor
     var body: some View {
-        Text("Hello world")
+        HStack {
+            if diffWithoutColor {
+                Image(systemName: "checkmark.circle")
+            }
+            Text("success")
+        }
+        .padding()
+        .background(diffWithoutColor ? .black : .green)
+        .foregroundStyle(.white)
+        .clipShape(.capsule)
     }
 }
 
