@@ -12,7 +12,7 @@ struct ContentView: View {
     @Environment(\.scenePhase) var scenePhase
     @State private var isActive = true
     @State private var cards = Array<Card>(repeating: .example, count: 10)
-    @State private var timeRemaining = 100
+    @State private var timeRemaining = 20
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
     var body: some View {
@@ -39,6 +39,15 @@ struct ContentView: View {
                     }
                 }
                 .allowsHitTesting(timeRemaining > 0)
+                if cards.isEmpty {
+                    Button("Start Again") {
+                        resetCards()
+                    }
+                    .padding()
+                    .background(.white)
+                    .foregroundStyle(.black)
+                    .clipShape(.capsule)
+                }
             }
             
             if diffWithoutColor {
@@ -76,6 +85,12 @@ struct ContentView: View {
                 isActive = false
             }
         }
+    }
+    
+    private func resetCards() {
+        cards = Array<Card>(repeating: .example, count: 10)
+        timeRemaining = 20
+        isActive = true
     }
     
     private func removeCard(at index: Int) {
