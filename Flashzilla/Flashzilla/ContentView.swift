@@ -8,13 +8,34 @@
 import SwiftUI
 
 struct ContentView: View {
+    @Environment(\.accessibilityDifferentiateWithoutColor) var diffWithoutColor
     @State private var cards = Array<Card>(repeating: .example, count: 10)
+    
     var body: some View {
         ZStack {
             Image(.background)
                 .resizable()
                 .ignoresSafeArea()
             VStack {
+                if diffWithoutColor {
+                    VStack {
+                        Spacer()
+                        HStack {
+                            Image(systemName: "xmark.circle")
+                                .padding()
+                                .background(.black.opacity(0.7))
+                                .clipShape(.circle)
+                            Spacer()
+                            Image(systemName: "checkmark.circle")
+                                .padding()
+                                .background(.black.opacity(0.7))
+                                .clipShape(.circle)
+                        }
+                        .foregroundStyle(.white)
+                        .font(.largeTitle)
+                        .padding()
+                    }
+                }
                 ZStack {
                     ForEach(0..<cards.count, id: \.self) { index in
                         CardView(card: cards[index]) {
