@@ -80,7 +80,9 @@ struct ContentView: View {
         })
         .onChange(of: scenePhase) {
             if scenePhase == .active {
-                isActive = true
+                if cards.isEmpty == false {
+                    isActive = true
+                }
             } else {
                 isActive = false
             }
@@ -95,6 +97,9 @@ struct ContentView: View {
     
     private func removeCard(at index: Int) {
         self.cards.remove(at: index)
+        if cards.isEmpty {
+            isActive = false
+        }
     }
 }
 
