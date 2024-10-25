@@ -9,6 +9,8 @@ import SwiftUI
 
 struct ContentView: View {
     @Environment(\.accessibilityDifferentiateWithoutColor) var diffWithoutColor
+    @Environment(\.scenePhase) var scenePhase
+    @State private var isActive = true
     @State private var cards = Array<Card>(repeating: .example, count: 10)
     @State private var timeRemaining = 100
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
@@ -59,12 +61,20 @@ struct ContentView: View {
             }
         }
         .onReceive(timer, perform: { time in
+            guard isActive else { return }
             if timeRemaining > 0 {
                 timeRemaining -= 1
             } else {
                 timer.upstream.connect().cancel()
             }
         })
+        .onChange(of: scenePhase) {
+            if scenePhase == .active {
+                isActive = true
+            } else {
+                isActive = false
+            }
+        }
     }
     
     private func removeCard(at index: Int) {
