@@ -14,6 +14,7 @@ struct ContentView: View {
     @State private var isActive = true
     @State private var cards = Array<Card>(repeating: .example, count: 10)
     @State private var timeRemaining = 100
+    @State private var showingEditScreen = false
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
     var body: some View {
@@ -52,6 +53,24 @@ struct ContentView: View {
                     .clipShape(.capsule)
                 }
             }
+            VStack {
+                HStack {
+                    Spacer()
+                    Button {
+                        showingEditScreen = true
+                    } label: {
+                        Image(systemName: "plus.circle")
+                            .padding()
+                            .background(.black.opacity(0.7))
+                            .clipShape(.circle)
+                    }
+
+                }
+                Spacer()
+            }
+            .foregroundStyle(.white)
+            .font(.largeTitle)
+            .padding()
             
             if diffWithoutColor || isVoiceOverEnabled{
                 VStack {
