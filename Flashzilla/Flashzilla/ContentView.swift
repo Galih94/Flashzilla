@@ -117,6 +117,7 @@ struct ContentView: View {
     }
     
     private func removeCard(at index: Int) {
+        guard index >= 0 else { return }
         self.cards.remove(at: index)
         if cards.isEmpty {
             isActive = false
