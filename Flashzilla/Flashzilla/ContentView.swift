@@ -128,6 +128,9 @@ struct ContentView: View {
                 isActive = false
             }
         }
+        .sheet(isPresented: $showingEditScreen) {
+            EditCards()
+        }
     }
     
     private func resetCards() {
