@@ -128,14 +128,14 @@ struct ContentView: View {
                 isActive = false
             }
         }
-        .sheet(isPresented: $showingEditScreen) {
+        .sheet(isPresented: $showingEditScreen, onDismiss: resetCards) {
             EditCards()
         }
     }
     
     private func resetCards() {
         cards = Array<Card>(repeating: .example, count: 10)
-        timeRemaining = 20
+        timeRemaining = 100
         isActive = true
     }
     
