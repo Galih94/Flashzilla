@@ -9,10 +9,11 @@ import SwiftUI
 
 struct ContentView: View {
     @Environment(\.accessibilityDifferentiateWithoutColor) var diffWithoutColor
+    @Environment(\.accessibilityVoiceOverEnabled) var isVoiceOverEnabled
     @Environment(\.scenePhase) var scenePhase
     @State private var isActive = true
     @State private var cards = Array<Card>(repeating: .example, count: 10)
-    @State private var timeRemaining = 20
+    @State private var timeRemaining = 100
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
     var body: some View {
@@ -52,7 +53,7 @@ struct ContentView: View {
                 }
             }
             
-            if diffWithoutColor {
+            if diffWithoutColor || isVoiceOverEnabled{
                 VStack {
                     Spacer()
                     HStack {
