@@ -12,8 +12,11 @@ struct CardView: View {
     @Environment(\.accessibilityDifferentiateWithoutColor) var diffWithoutColor
     let card: Card
     var removal: (() -> Void)? = nil
+    var moveCardToBottom: (() -> Void)? = nil
+    @State private var shouldDismiss: Bool = false
     @State private var offset = CGSize.zero
     @State private var isShowingAnswer = false
+    
     var body: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 25.0)
@@ -25,11 +28,12 @@ struct CardView: View {
                 )
                 .background(
                     diffWithoutColor
-                    ? nil
-                    : RoundedRectangle(cornerRadius: 25)
-                        .fill(offset.width > 50 ? .green : offset.width < 0 ? .red : .white)
+                        ? nil
+                        : RoundedRectangle(cornerRadius: 25)
+                            .fill(offset.width > 50 ? .green : offset.width < -50 ? .red : .white)
                 )
                 .shadow(radius: 10)
+            
             VStack {
                 if isVoiceOverEnabled {
                     Text(isShowingAnswer ? card.answer : card.prompt)
@@ -51,17 +55,26 @@ struct CardView: View {
             .multilineTextAlignment(.center)
         }
         .frame(width: 450, height: 250)
-        .rotationEffect(.degrees(offset.width / 5.0))
-        .offset(x: offset.width * 5)
-        .opacity(2 - Double(abs(offset.width / 50)))
+        .rotationEffect(shouldDismiss ? .degrees(offset.width / 5.0) : .zero)
+        .offset( x: shouldDismiss ? offset.width * 5 : 0)
+        .opacity( shouldDismiss ? 2 - Double(abs(offset.width / 50)) : 1)
         .accessibilityAddTraits(.isButton)
         .gesture(DragGesture()
             .onChanged { gesture in
                 offset = gesture.translation
+                if gesture.translation.width > -50 {
+                    shouldDismiss = true
+                } else {
+                    shouldDismiss = false
+                }
             }
             .onEnded { _ in
-                if abs(offset.width) > 100 {
-                    /// remove card
+                if offset.width < -100 {
+                    // Move card to the bottom if swiped left
+                    
+                    moveCardToBottom?()
+                } else if offset.width > 100 {
+                    // Remove card if swiped right
                     removal?()
                 } else {
                     offset = .zero

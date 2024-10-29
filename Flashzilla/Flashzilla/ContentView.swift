@@ -30,16 +30,23 @@ struct ContentView: View {
                     .padding(.vertical, 5)
                     .background(.black.opacity(0.75))
                     .clipShape(.capsule)
+                
                 ZStack {
-                    ForEach(0..<cards.count, id: \.self) { index in
-                        CardView(card: cards[index]) {
-                            withAnimation {
-                                removeCard(at: index)
-                            }
+                    ForEach(cards) { card in
+                        if let index = cards.firstIndex(where: { $0.id == card.id }) {
+                            CardView(card: card, removal: {
+                                withAnimation {
+                                    removeCard(at: index)
+                                }
+                            }, moveCardToBottom: {
+                                withAnimation {
+                                    moveCardToBottom(index: index)
+                                }
+                            })
+                            .stacked(at: index, in: cards.count)
+                            .allowsHitTesting(index == cards.count - 1)
+                            .accessibilityHidden(index < cards.count - 1)
                         }
-                        .stacked(at: index, in: cards.count)
-                        .allowsHitTesting(index == cards.count - 1)
-                        .accessibilityHidden(index < cards.count - 1)
                     }
                 }
                 .allowsHitTesting(timeRemaining > 0)
@@ -79,7 +86,7 @@ struct ContentView: View {
                         Button {
                             /// do something on tapped x
                             withAnimation {
-                                removeCard(at: cards.count - 1)
+                                moveCardToBottom(index: cards.count - 1)
                             }
                         } label: {
                             Image(systemName: "xmark.circle")
@@ -92,7 +99,7 @@ struct ContentView: View {
                         Spacer()
                         
                         Button {
-                            /// do something on tapped x
+                            /// do something on tapped v
                             withAnimation {
                                 removeCard(at: cards.count - 1)
                             }
@@ -151,6 +158,14 @@ struct ContentView: View {
         if cards.isEmpty {
             isActive = false
         }
+    }
+    
+    private func moveCardToBottom(index: Int) {
+        guard !cards.isEmpty else { return }
+        var updatedCards = cards
+        let lastCard = updatedCards.removeLast()
+        updatedCards.insert(lastCard, at: 0)
+        cards = updatedCards
     }
 }
 
