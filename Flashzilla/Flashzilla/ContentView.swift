@@ -146,9 +146,18 @@ struct ContentView: View {
     }
     
     private func loadData() {
-        if let data = UserDefaults.standard.data(forKey: Config.CARDS_KEY),
-           let decoded = try? JSONDecoder().decode([Card].self, from: data) {
-            cards = decoded
+        /// load by user data
+//        if let data = UserDefaults.standard.data(forKey: Config.CARDS_KEY),
+//           let decoded = try? JSONDecoder().decode([Card].self, from: data) {
+//            cards = decoded
+//        }
+        
+        /// load by json local
+        do {
+            let data = try Data(contentsOf: Config.SAVE_PATH)
+            cards = try JSONDecoder().decode([Card].self, from: data)
+        } catch {
+            cards = []
         }
     }
     
