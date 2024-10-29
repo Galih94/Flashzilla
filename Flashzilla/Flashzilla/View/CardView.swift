@@ -27,7 +27,7 @@ struct CardView: View {
                     diffWithoutColor
                     ? nil
                     : RoundedRectangle(cornerRadius: 25)
-                        .fill(offset.width > 0 ? .green : .red)
+                        .fill(offset.width > 50 ? .green : offset.width < 0 ? .red : .white)
                 )
                 .shadow(radius: 10)
             VStack {
