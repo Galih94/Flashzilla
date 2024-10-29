@@ -16,6 +16,7 @@ struct ContentView: View {
     @State private var timeRemaining = 100
     @State private var showingEditScreen = false
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
+    let storageManager: iStorageManager = StorageManager()
     
     var body: some View {
         ZStack {
@@ -135,7 +136,9 @@ struct ContentView: View {
                 isActive = false
             }
         }
-        .sheet(isPresented: $showingEditScreen, onDismiss: resetCards, content: EditCards.init)
+        .sheet(isPresented: $showingEditScreen, onDismiss: resetCards) {
+            EditCards(storageManager: storageManager)
+        }
         .onAppear(perform: resetCards)
     }
     
@@ -146,19 +149,7 @@ struct ContentView: View {
     }
     
     private func loadData() {
-        /// load by user data
-//        if let data = UserDefaults.standard.data(forKey: Config.CARDS_KEY),
-//           let decoded = try? JSONDecoder().decode([Card].self, from: data) {
-//            cards = decoded
-//        }
-        
-        /// load by json local
-        do {
-            let data = try Data(contentsOf: Config.SAVE_PATH)
-            cards = try JSONDecoder().decode([Card].self, from: data)
-        } catch {
-            cards = []
-        }
+        cards = storageManager.load()
     }
     
     private func removeCard(at index: Int) {

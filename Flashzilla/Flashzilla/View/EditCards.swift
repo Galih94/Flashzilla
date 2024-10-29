@@ -7,17 +7,12 @@
 
 import SwiftUI
 
-enum Config {
-    static let CARDS_KEY: String = "Cards"
-    static let SAVE_PATH = URL.documentsDirectory.appending(path: "SavedCards")
-}
-
 struct EditCards: View {
     @Environment(\.dismiss) var dismiss
     @State private var cards = [Card]()
     @State private var newPrompt = ""
     @State private var newAnswer = ""
-
+    let storageManager: iStorageManager
     
     var body: some View {
         NavigationStack {
@@ -60,34 +55,11 @@ struct EditCards: View {
     }
     
     private func loadData() {
-        /// load by user data
-//        if let data = UserDefaults.standard.data(forKey: Config.CARDS_KEY),
-//           let decoded = try? JSONDecoder().decode([Card].self, from: data) {
-//            cards = decoded
-//        }
-        
-        /// load by json local
-        do {
-            let data = try Data(contentsOf: Config.SAVE_PATH)
-            cards = try JSONDecoder().decode([Card].self, from: data)
-        } catch {
-            cards = []
-        }
+        cards = storageManager.load()
     }
     
     private func saveData() {
-        /// save by user data
-//        if let data = try? JSONEncoder().encode(cards) {
-//            UserDefaults.standard.set(data, forKey: Config.CARDS_KEY)
-//        }
-        
-        /// save by json local
-        do {
-            let data = try JSONEncoder().encode(cards)
-            try data.write(to: Config.SAVE_PATH, options: [.atomic, .completeFileProtection])
-        } catch {
-            print("error -- \(error.localizedDescription)")
-        }
+        storageManager.save(cards)
     }
     
     private func addCard() {
@@ -109,5 +81,5 @@ struct EditCards: View {
 }
 
 #Preview {
-    EditCards()
+    EditCards(storageManager: StorageManager())
 }

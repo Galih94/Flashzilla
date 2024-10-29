@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2A13886E2CD0DC380025E19B /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A13886D2CD0DC380025E19B /* StorageManager.swift */; };
 		2A359C1E2CC9E3E20030B38E /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A359C1D2CC9E3E20030B38E /* CardView.swift */; };
 		2A3EFBCE2CC9E0DC004E5A42 /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A3EFBCD2CC9E0DC004E5A42 /* Card.swift */; };
 		2AB903122CCF5A7D0088DB8C /* EditCards.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AB903112CCF5A7D0088DB8C /* EditCards.swift */; };
@@ -17,6 +18,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2A13886D2CD0DC380025E19B /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
 		2A359C1D2CC9E3E20030B38E /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
 		2A3EFBCD2CC9E0DC004E5A42 /* Card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
 		2AB903112CCF5A7D0088DB8C /* EditCards.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditCards.swift; sourceTree = "<group>"; };
@@ -38,6 +40,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2A13886C2CD0DC1D0025E19B /* Helper */ = {
+			isa = PBXGroup;
+			children = (
+				2A13886D2CD0DC380025E19B /* StorageManager.swift */,
+			);
+			path = Helper;
+			sourceTree = "<group>";
+		};
 		2A359C1C2CC9E3840030B38E /* View */ = {
 			isa = PBXGroup;
 			children = (
@@ -76,6 +86,7 @@
 			children = (
 				2AB94C672CC756B90044B77E /* FlashzillaApp.swift */,
 				2AB94C692CC756B90044B77E /* ContentView.swift */,
+				2A13886C2CD0DC1D0025E19B /* Helper */,
 				2A359C1C2CC9E3840030B38E /* View */,
 				2A3EFBCC2CC9E0CF004E5A42 /* Model */,
 				2AB94C6B2CC756BA0044B77E /* Assets.xcassets */,
@@ -165,6 +176,7 @@
 				2AB94C6A2CC756B90044B77E /* ContentView.swift in Sources */,
 				2A3EFBCE2CC9E0DC004E5A42 /* Card.swift in Sources */,
 				2A359C1E2CC9E3E20030B38E /* CardView.swift in Sources */,
+				2A13886E2CD0DC380025E19B /* StorageManager.swift in Sources */,
 				2AB903122CCF5A7D0088DB8C /* EditCards.swift in Sources */,
 				2AB94C682CC756B90044B77E /* FlashzillaApp.swift in Sources */,
 			);
